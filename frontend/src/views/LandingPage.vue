@@ -1,12 +1,19 @@
 <template>
   <div class="landing-container">
-    <button class="landing-btn student-btn">student</button>
-    <button class="landing-btn teacher-btn">teacher</button>
+    <button class="landing-btn student-btn" @click="goToStudent">student</button>
+    <button class="landing-btn teacher-btn" @click="goToTeacher">teacher</button>
   </div>
 </template>
 
 <script setup lang="ts">
-// No logic yet
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const goToStudent = () => {
+  router.push('/student')
+}
+const goToTeacher = () => {
+  router.push('/teacher')
+}
 </script>
 
 <style scoped>
