@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import * as promptController from '../controllers/promptcontroller'
+import * as promptController from '../controllers/prompt.controller'
 
 const router = Router()
 router.get('/', promptController.getAll)
