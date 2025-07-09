@@ -8,8 +8,12 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 const router = useRouter()
-const goToStudent = () => router.push({ name: 'student-options' })
-const goToTeacher = () => router.push({ name: 'teacher-tasks' })
+const goToStudent = () => {
+  router.push({ name: 'student-options' })
+}
+const goToTeacher = () => {
+  router.push('/teacher')
+}
 </script>
 
 <style scoped>
