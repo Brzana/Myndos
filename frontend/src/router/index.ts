@@ -38,7 +38,7 @@ const router = createRouter({
       component: () => import('../views/StudentChatView.vue'),
     },
     {
-      path: '/student/add-examples',
+      path: '/student/edit-questions',
       name: 'student-add-examples',
       component: () => import('../views/StudentAddExamplesView.vue'),
     },

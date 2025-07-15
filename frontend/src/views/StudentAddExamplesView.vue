@@ -1,24 +1,60 @@
 <template>
   <DashboardLayout>
     <div class="max-w-xl mx-auto mt-10">
-      <h1 class="text-2xl font-bold mb-6 text-center">Add Example Questions</h1>
-      <form @submit.prevent="submitExample" class="space-y-4">
-        <textarea v-model="question" class="w-full p-3 border rounded" rows="4" placeholder="Enter your example question..."></textarea>
-        <button type="submit" class="w-full py-2 px-4 rounded bg-green-600 text-white font-semibold hover:bg-green-700">Submit</button>
-      </form>
-      <div v-if="submitted" class="mt-4 text-green-600 text-center">Question submitted!</div>
+      <h1 class="text-2xl font-bold mb-6 text-center">Edit Example Questions</h1>
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-lg font-semibold">Folders</span>
+        <button
+          @click="createFolder"
+          class="bg-blue-500 hover:bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-xl"
+          title="Add Folder"
+        >
+          +
+        </button>
+      </div>
+      <ul class="mb-6">
+        <li v-for="(folder, idx) in folders" :key="idx" class="mb-2 p-2 border rounded bg-gray-50">
+          <span class="font-medium">{{ folder.name }}</span>
+          <span class="ml-2 text-xs text-gray-500">({{ folder.questions.length }} questions)</span>
+        </li>
+        <li v-if="folders.length === 0" class="text-gray-400">No folders yet.</li>
+      </ul>
+      <!-- Form and submit button removed as requested -->
     </div>
   </DashboardLayout>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import DashboardLayout from '../layouts/DashboardLayout.vue'
-const question = ref('')
-const submitted = ref(false)
-const submitExample = () => {
-  // TODO: Send to backend
-  submitted.value = true
-  question.value = ''
-  setTimeout(() => (submitted.value = false), 2000)
+import { getFolders, createFolder as apiCreateFolder } from '../services/folderService'
+
+const folders = ref<{ name: string; questions: string[] }[]>([])
+const loading = ref(false)
+const error = ref('')
+
+async function loadFolders() {
+  loading.value = true
+  error.value = ''
+  try {
+    folders.value = await getFolders()
+  } catch (e) {
+    error.value = 'Failed to load folders'
+  } finally {
+    loading.value = false
+  }
 }
+
+async function createFolder() {
+  const name = prompt('Enter folder name:')?.trim()
+  if (name) {
+    try {
+      const newFolder = await apiCreateFolder(name)
+      folders.value.push(newFolder)
+    } catch (e: any) {
+      alert(e?.response?.data?.error || 'Failed to create folder')
+    }
+  }
+}
+
+onMounted(loadFolders)
 </script>
