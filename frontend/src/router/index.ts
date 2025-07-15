@@ -42,6 +42,23 @@ const router = createRouter({
       name: 'student-add-examples',
       component: () => import('../views/StudentAddExamplesView.vue'),
     },
+
+    // Teacher routes
+    {
+      path: '/teacher',
+      name: 'teacher-options',
+      component: () => import('../views/TeacherOptionsView.vue'),
+    },
+    {
+      path: '/teacher/exam',
+      name: 'teacher-exam',
+      component: () => import('../views/TeacherExamView.vue'),
+    },
+    {
+      path: '/teacher/edit-questions',
+      name: 'teacher-edit-questions',
+      component: () => import('../views/TeacherEditQuestionsView.vue'),
+    },
   ],
 })
 

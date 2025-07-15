@@ -10,7 +10,7 @@
           <button @click="goToChat" class="student-option-btn">Chat Mode</button>
         </li>
         <li>
-          <button @click="goToAddExamples" class="student-option-btn">Add Example Questions</button>
+          <button @click="goToAddExamples" class="student-option-btn">Edit Questions</button>
         </li>
       </ul>
     </div>
@@ -58,7 +58,10 @@ const goToAddExamples = () => router.push({ name: 'student-add-examples' })
   border-radius: 1.25rem;
   box-shadow: 0 8px 32px 0 rgba(34, 197, 94, 0.2);
   border: 4px solid #4ade80;
-  transition: background 0.3s, border 0.3s, box-shadow 0.3s;
+  transition:
+    background 0.3s,
+    border 0.3s,
+    box-shadow 0.3s;
   cursor: pointer;
   width: 100%;
   max-width: 350px;
