@@ -40,3 +40,39 @@ export const createFolder = (
   writeFolders(folders)
   res.status(201).json(newFolder)
 }
+
+export const addQuestionToFolder = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): any => {
+  const { name } = req.params
+  const { question } = req.body
+  if (!question) {
+    return res.status(400).json({ error: 'Question is required' })
+  }
+  const folders = readFolders()
+  const folder = folders.find((f: any) => f.name === name)
+  if (!folder) {
+    return res.status(404).json({ error: 'Folder not found' })
+  }
+  folder.questions.push(question)
+  writeFolders(folders)
+  res.json(folder)
+}
+
+export const deleteFolder = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): any => {
+  const { name } = req.params
+  let folders = readFolders()
+  const folderIndex = folders.findIndex((f: any) => f.name === name)
+  if (folderIndex === -1) {
+    return res.status(404).json({ error: 'Folder not found' })
+  }
+  folders.splice(folderIndex, 1)
+  writeFolders(folders)
+  res.status(204).send()
+}

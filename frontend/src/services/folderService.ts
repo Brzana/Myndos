@@ -11,3 +11,15 @@ export async function createFolder(name: string) {
   const res = await axios.post(API_URL, { name })
   return res.data
 }
+
+export async function addQuestionToFolder(folderName: string, question: string) {
+  const res = await axios.post(`${API_URL}/${encodeURIComponent(folderName)}/questions`, {
+    question,
+  })
+  return res.data
+}
+
+export async function deleteFolder(name: string) {
+  const res = await axios.delete(`${API_URL}/${encodeURIComponent(name)}`)
+  return res.data
+}

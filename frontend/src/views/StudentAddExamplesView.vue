@@ -13,24 +13,90 @@
         </button>
       </div>
       <ul class="mb-6">
-        <li v-for="(folder, idx) in folders" :key="idx" class="mb-2 p-2 border rounded bg-gray-50">
-          <span class="font-medium">{{ folder.name }}</span>
-          <span class="ml-2 text-xs text-gray-500">({{ folder.questions.length }} questions)</span>
+        <li
+          v-for="(folder, idx) in folders"
+          :key="idx"
+          class="mb-2 p-2 border rounded bg-gray-50 group relative"
+        >
+          <div class="flex justify-between items-center">
+            <span class="font-medium">{{ folder.name }}</span>
+            <span class="ml-2 text-xs text-gray-500"
+              >({{ folder.questions.length }} questions)</span
+            >
+            <button
+              @click="confirmDeleteFolder(folder.name)"
+              class="ml-2 w-8 h-8 rounded-md flex items-center justify-center text-lg font-bold bg-red-500 hover:bg-red-600 transition-colors duration-200"
+              title="Delete folder"
+              type="button"
+            >
+              ×
+            </button>
+          </div>
+          <ul v-if="folder.questions.length" class="ml-4 mt-2 list-disc text-sm text-gray-700">
+            <li v-for="(q, qIdx) in folder.questions" :key="qIdx">{{ q }}</li>
+          </ul>
         </li>
         <li v-if="folders.length === 0" class="text-gray-400">No folders yet.</li>
       </ul>
-      <!-- Form and submit button removed as requested -->
+
+      <form @submit.prevent="submitQuestion" class="mb-4 p-4 border rounded bg-white shadow">
+        <div class="mb-2">
+          <label class="block mb-1 font-medium">Select Folder</label>
+          <select v-model="selectedFolder" class="w-full border rounded px-2 py-1">
+            <option disabled value="">-- Select a folder --</option>
+            <option v-for="folder in folders" :key="folder.name" :value="folder.name">
+              {{ folder.name }}
+            </option>
+          </select>
+        </div>
+        <div class="mb-2">
+          <label class="block mb-1 font-medium">New Question</label>
+          <input
+            v-model="newQuestion"
+            type="text"
+            class="w-full border rounded px-2 py-1"
+            placeholder="Enter your question"
+          />
+        </div>
+        <button
+          type="submit"
+          class="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded"
+          :disabled="!selectedFolder || !newQuestion || loading"
+        >
+          Add Question
+        </button>
+      </form>
     </div>
   </DashboardLayout>
 </template>
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import DashboardLayout from '../layouts/DashboardLayout.vue'
-import { getFolders, createFolder as apiCreateFolder } from '../services/folderService'
+import {
+  getFolders,
+  createFolder as apiCreateFolder,
+  addQuestionToFolder as apiAddQuestionToFolder,
+  deleteFolder as apiDeleteFolder,
+} from '../services/folderService'
+async function confirmDeleteFolder(name: string) {
+  if (!window.confirm('Are you sure you want to delete this folder?')) return
+  loading.value = true
+  try {
+    await apiDeleteFolder(name)
+    folders.value = folders.value.filter((f) => f.name !== name)
+    if (selectedFolder.value === name) selectedFolder.value = ''
+  } catch (e: any) {
+    alert(e?.response?.data?.error || 'Error deleting folder')
+  } finally {
+    loading.value = false
+  }
+}
 
 const folders = ref<{ name: string; questions: string[] }[]>([])
 const loading = ref(false)
 const error = ref('')
+const selectedFolder = ref('')
+const newQuestion = ref('')
 
 async function loadFolders() {
   loading.value = true
@@ -53,6 +119,24 @@ async function createFolder() {
     } catch (e: any) {
       alert(e?.response?.data?.error || 'Failed to create folder')
     }
+  }
+}
+
+async function submitQuestion() {
+  if (!selectedFolder.value || !newQuestion.value) return
+  loading.value = true
+  try {
+    const updatedFolder = await apiAddQuestionToFolder(selectedFolder.value, newQuestion.value)
+    // Update the folder in the folders list
+    const idx = folders.value.findIndex((f) => f.name === updatedFolder.name)
+    if (idx !== -1) {
+      folders.value[idx] = updatedFolder
+    }
+    newQuestion.value = ''
+  } catch (e: any) {
+    alert(e?.response?.data?.error || 'Failed to add question')
+  } finally {
+    loading.value = false
   }
 }
 

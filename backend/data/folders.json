@@ -1,6 +1,16 @@
 [
   {
     "name": "jeden",
-    "questions": []
+    "questions": [
+      "lol",
+      "siema"
+    ]
+  },
+  {
+    "name": "dwa",
+    "questions": [
+      "co",
+      "tam"
+    ]
   }
 ]
