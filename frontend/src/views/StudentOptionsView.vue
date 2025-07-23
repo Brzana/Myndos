@@ -49,7 +49,7 @@ const goToHome = () => router.push({ name: 'landing' })
   font-weight: 600;
   color: #fff;
   background: linear-gradient(90deg, #22c55e 0%, #10b981 50%, #16a34a 100%);
-  border: 2px solid #16a34a;
+  border: 2px solid #4ade80;
   border-radius: 0.75rem;
   box-shadow: 0 2px 8px 0 rgba(34, 197, 94, 0.08);
   cursor: pointer;
@@ -61,6 +61,7 @@ const goToHome = () => router.push({ name: 'landing' })
 }
 .back-home-btn:hover {
   background: linear-gradient(90deg, #16a34a 0%, #059669 50%, #166534 100%);
+  border-color: #16a34a;
   color: #fff;
 }
 .student-options-list {
