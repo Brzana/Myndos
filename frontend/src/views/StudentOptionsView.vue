@@ -1,5 +1,6 @@
 <template>
   <DashboardLayout>
+    <button class="back-home-btn" @click="goToHome">← Home</button>
     <div class="student-options-container">
       <h1 class="text-2xl font-bold mb-6 text-center">Student Options</h1>
       <ul class="student-options-list">
@@ -24,6 +25,7 @@ const router = useRouter()
 const goToExam = () => router.push({ name: 'student-exam' })
 const goToChat = () => router.push({ name: 'student-chat' })
 const goToAddExamples = () => router.push({ name: 'student-add-examples' })
+const goToHome = () => router.push({ name: 'landing' })
 </script>
 
 <style scoped>
@@ -37,6 +39,29 @@ const goToAddExamples = () => router.push({ name: 'student-add-examples' })
   gap: 2rem;
   z-index: 1;
   background: transparent;
+}
+.back-home-btn {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(90deg, #22c55e 0%, #10b981 50%, #16a34a 100%);
+  border: 2px solid #16a34a;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px 0 rgba(34, 197, 94, 0.08);
+  cursor: pointer;
+  z-index: 10;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border 0.2s;
+}
+.back-home-btn:hover {
+  background: linear-gradient(90deg, #16a34a 0%, #059669 50%, #166534 100%);
+  color: #fff;
 }
 .student-options-list {
   display: flex;
