@@ -1,3 +1,9 @@
+export async function deleteQuestion(folderName: string, question: string) {
+  const res = await axios.delete(`${API_URL}/${encodeURIComponent(folderName)}/questions`, {
+    data: { question },
+  })
+  return res.data
+}
 import axios from 'axios'
 
 const API_URL = '/api/folders'

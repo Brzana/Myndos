@@ -1,3 +1,26 @@
+export const deleteQuestionFromFolder = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): any => {
+  const { name } = req.params
+  const { question } = req.body
+  if (!question) {
+    return res.status(400).json({ error: 'Question is required' })
+  }
+  const folders = readFolders()
+  const folder = folders.find((f: any) => f.name === name)
+  if (!folder) {
+    return res.status(404).json({ error: 'Folder not found' })
+  }
+  const index = folder.questions.indexOf(question)
+  if (index === -1) {
+    return res.status(404).json({ error: 'Question not found in folder' })
+  }
+  folder.questions.splice(index, 1)
+  writeFolders(folders)
+  res.status(204).send()
+}
 import { NextFunction, Request, Response } from 'express'
 import fs from 'fs'
 import path from 'path'

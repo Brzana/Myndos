@@ -25,7 +25,8 @@
             >
             <button
               @click="confirmDeleteFolder(folder.name)"
-              class="ml-2 w-8 h-8 rounded-md flex items-center justify-center text-lg font-bold bg-red-500 hover:bg-red-600 transition-colors duration-200"
+              style="background-color: #e53e3e; color: white; border: none"
+              class="ml-2 w-8 h-8 rounded-md flex items-center justify-center text-lg font-bold"
               title="Delete folder"
               type="button"
             >
@@ -33,7 +34,22 @@
             </button>
           </div>
           <ul v-if="folder.questions.length" class="ml-4 mt-2 list-disc text-sm text-gray-700">
-            <li v-for="(q, qIdx) in folder.questions" :key="qIdx">{{ q }}</li>
+            <li
+              v-for="(q, qIdx) in folder.questions"
+              :key="qIdx"
+              class="flex items-center justify-between group"
+            >
+              <span>{{ q }}</span>
+              <button
+                @click="deleteQuestion(folder.name, q)"
+                style="background-color: #e53e3e; color: white; border: none"
+                class="ml-2 w-6 h-6 rounded-md flex items-center justify-center text-base font-bold opacity-80 hover:opacity-100 transition-opacity"
+                title="Delete question"
+                type="button"
+              >
+                ×
+              </button>
+            </li>
           </ul>
         </li>
         <li v-if="folders.length === 0" class="text-gray-400">No folders yet.</li>
@@ -77,7 +93,24 @@ import {
   createFolder as apiCreateFolder,
   addQuestionToFolder as apiAddQuestionToFolder,
   deleteFolder as apiDeleteFolder,
+  deleteQuestion as apiDeleteQuestion,
 } from '../services/folderService'
+async function deleteQuestion(folderName: string, question: string) {
+  if (!window.confirm('Are you sure you want to delete this question?')) return
+  loading.value = true
+  try {
+    await apiDeleteQuestion(folderName, question)
+    // Update UI: remove question from the folder in folders.value
+    const folder = folders.value.find((f) => f.name === folderName)
+    if (folder) {
+      folder.questions = folder.questions.filter((q) => q !== question)
+    }
+  } catch (e: any) {
+    alert(e?.response?.data?.error || 'Error deleting question')
+  } finally {
+    loading.value = false
+  }
+}
 async function confirmDeleteFolder(name: string) {
   if (!window.confirm('Are you sure you want to delete this folder?')) return
   loading.value = true

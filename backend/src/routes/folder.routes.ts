@@ -3,6 +3,7 @@ import {
   getAllFolders,
   createFolder,
   addQuestionToFolder,
+  deleteQuestionFromFolder,
 } from '../controllers/folder.controller'
 
 const router = Router()
@@ -14,5 +15,8 @@ router.delete(
   '/:name',
   require('../controllers/folder.controller').deleteFolder
 )
+
+// Delete a question from a folder
+router.delete('/:name/questions', deleteQuestionFromFolder)
 
 export default router
