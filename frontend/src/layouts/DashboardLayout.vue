@@ -4,7 +4,7 @@
     <nav class="bg-white dark:bg-gray-800 shadow p-4 flex justify-between">
       <slot name="navbar" />
     </nav>
-    <main class="p-6">
+    <main class="p-6 min-h-screen flex flex-col">
       <slot />
     </main>
   </div>

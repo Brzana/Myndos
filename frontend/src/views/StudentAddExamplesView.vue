@@ -1,87 +1,89 @@
 <template>
   <DashboardLayout>
-    <div class="max-w-xl mx-auto mt-10">
-      <h1 class="text-2xl font-bold mb-6 text-center">Edit Example Questions</h1>
-      <div class="flex justify-between items-center mb-4">
-        <span class="text-lg font-semibold">Folders</span>
-        <button
-          @click="createFolder"
-          class="bg-blue-500 hover:bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-xl"
-          title="Add Folder"
-        >
-          +
-        </button>
-      </div>
-      <ul class="mb-6">
-        <li
-          v-for="(folder, idx) in folders"
-          :key="idx"
-          class="mb-2 p-2 border rounded bg-gray-50 group relative"
-        >
-          <div class="flex justify-between items-center">
-            <span class="font-medium">{{ folder.name }}</span>
-            <span class="ml-2 text-xs text-gray-500"
-              >({{ folder.questions.length }} questions)</span
-            >
-            <button
-              @click="confirmDeleteFolder(folder.name)"
-              style="background-color: #e53e3e; color: white; border: none"
-              class="ml-2 w-8 h-8 rounded-md flex items-center justify-center text-lg font-bold"
-              title="Delete folder"
-              type="button"
-            >
-              ×
-            </button>
-          </div>
-          <ul v-if="folder.questions.length" class="ml-4 mt-2 list-disc text-sm text-gray-700">
-            <li
-              v-for="(q, qIdx) in folder.questions"
-              :key="qIdx"
-              class="flex items-center justify-between group"
-            >
-              <span>{{ q }}</span>
+    <div class="student-edit-questions-center-wrapper">
+      <div class="max-w-xl w-full center-content-box">
+        <h1 class="text-2xl font-bold mb-6 text-center">Edit Example Questions</h1>
+        <div class="flex justify-between items-center mb-4">
+          <span class="text-lg font-semibold">Folders</span>
+          <button
+            @click="createFolder"
+            class="bg-blue-500 hover:bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-xl"
+            title="Add Folder"
+          >
+            +
+          </button>
+        </div>
+        <ul class="mb-6">
+          <li
+            v-for="(folder, idx) in folders"
+            :key="idx"
+            class="mb-2 p-2 border rounded bg-gray-50 group relative"
+          >
+            <div class="flex justify-between items-center">
+              <span class="font-medium">{{ folder.name }}</span>
+              <span class="ml-2 text-xs text-gray-500"
+                >({{ folder.questions.length }} questions)</span
+              >
               <button
-                @click="deleteQuestion(folder.name, q)"
+                @click="confirmDeleteFolder(folder.name)"
                 style="background-color: #e53e3e; color: white; border: none"
-                class="ml-2 w-6 h-6 rounded-md flex items-center justify-center text-base font-bold opacity-80 hover:opacity-100 transition-opacity"
-                title="Delete question"
+                class="ml-2 w-8 h-8 rounded-md flex items-center justify-center text-lg font-bold"
+                title="Delete folder"
                 type="button"
               >
                 ×
               </button>
-            </li>
-          </ul>
-        </li>
-        <li v-if="folders.length === 0" class="text-gray-400">No folders yet.</li>
-      </ul>
+            </div>
+            <ul v-if="folder.questions.length" class="ml-4 mt-2 list-disc text-sm text-gray-700">
+              <li
+                v-for="(q, qIdx) in folder.questions"
+                :key="qIdx"
+                class="flex items-center justify-between group"
+              >
+                <span>{{ q }}</span>
+                <button
+                  @click="deleteQuestion(folder.name, q)"
+                  style="background-color: #e53e3e; color: white; border: none"
+                  class="ml-2 w-6 h-6 rounded-md flex items-center justify-center text-base font-bold opacity-80 hover:opacity-100 transition-opacity"
+                  title="Delete question"
+                  type="button"
+                >
+                  ×
+                </button>
+              </li>
+            </ul>
+          </li>
+          <li v-if="folders.length === 0" class="text-gray-400">No folders yet.</li>
+        </ul>
 
-      <form @submit.prevent="submitQuestion" class="mb-4 p-4 border rounded bg-white shadow">
-        <div class="mb-2">
-          <label class="block mb-1 font-medium">Select Folder</label>
-          <select v-model="selectedFolder" class="w-full border rounded px-2 py-1">
-            <option disabled value="">-- Select a folder --</option>
-            <option v-for="folder in folders" :key="folder.name" :value="folder.name">
-              {{ folder.name }}
-            </option>
-          </select>
-        </div>
-        <div class="mb-2">
-          <label class="block mb-1 font-medium">New Question</label>
-          <input
-            v-model="newQuestion"
-            type="text"
-            class="w-full border rounded px-2 py-1"
-            placeholder="Enter your question"
-          />
-        </div>
-        <button
-          type="submit"
-          class="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded"
-          :disabled="!selectedFolder || !newQuestion || loading"
-        >
-          Add Question
-        </button>
-      </form>
+        <form @submit.prevent="submitQuestion" class="mb-4 p-4 border rounded bg-white shadow">
+          <div class="mb-2">
+            <label class="block mb-1 font-medium">Select Folder</label>
+            <select v-model="selectedFolder" class="w-full border rounded px-2 py-1">
+              <option disabled value="">-- Select a folder --</option>
+              <option v-for="folder in folders" :key="folder.name" :value="folder.name">
+                {{ folder.name }}
+              </option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="block mb-1 font-medium">New Question</label>
+            <input
+              v-model="newQuestion"
+              type="text"
+              class="w-full border rounded px-2 py-1"
+              placeholder="Enter your question"
+            />
+          </div>
+          <button
+            type="submit"
+            class="bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded"
+            :disabled="!selectedFolder || !newQuestion || loading"
+          >
+            Add Question
+          </button>
+        </form>
+      </div>
     </div>
   </DashboardLayout>
 </template>
@@ -175,3 +177,18 @@ async function submitQuestion() {
 
 onMounted(loadFolders)
 </script>
+
+<style scoped>
+.student-edit-questions-center-wrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  z-index: 10;
+}
+.center-content-box {
+  margin: 0 !important;
+}
+</style>
