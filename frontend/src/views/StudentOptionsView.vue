@@ -8,9 +8,6 @@
           <button @click="goToExam" class="student-option-btn">Exam Mode</button>
         </li>
         <li>
-          <button @click="goToChat" class="student-option-btn">Chat Mode</button>
-        </li>
-        <li>
           <button @click="goToAddExamples" class="student-option-btn">Edit Questions</button>
         </li>
       </ul>
@@ -23,7 +20,6 @@ import { useRouter } from 'vue-router'
 import DashboardLayout from '../layouts/DashboardLayout.vue'
 const router = useRouter()
 const goToExam = () => router.push({ name: 'student-exam' })
-const goToChat = () => router.push({ name: 'student-chat' })
 const goToAddExamples = () => router.push({ name: 'student-add-examples' })
 const goToHome = () => router.push({ name: 'landing' })
 </script>
