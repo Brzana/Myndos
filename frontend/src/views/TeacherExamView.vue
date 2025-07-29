@@ -3,8 +3,7 @@
     <button class="back-home-btn" @click="goToTeacher">← Teacher</button>
     <div class="teacher-exam-container">
       <h1 class="text-2xl font-bold mb-6 text-center">Generate Exam</h1>
-      <!-- Exam generation UI goes here -->
-      <p class="text-center">This is where the teacher can generate an exam.</p>
+      <TeacherExamGenerator />
     </div>
   </DashboardLayout>
 </template>
@@ -12,6 +11,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import DashboardLayout from '../layouts/DashboardLayout.vue'
+import TeacherExamGenerator from '../components/TeacherExamGenerator.vue'
 const router = useRouter()
 const goToTeacher = () => router.push({ name: 'teacher-options' })
 </script>

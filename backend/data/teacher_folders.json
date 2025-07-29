@@ -2,15 +2,17 @@
   {
     "name": "jeden",
     "questions": [
-      "pytanie 1",
-      "pytanie 2"
+      "Oblicz wartość wyrażenia 2x + 5 dla x = 3.",
+      "Podaj definicję funkcji liniowej.",
+      "Jakie jest rozwiązanie równania x^2 = 9?"
     ]
   },
   {
     "name": "dwa",
     "questions": [
-      "pytanie 1",
-      "pytanie 2"
+      "Oblicz pole prostokąta o bokach 4 cm i 7 cm.",
+      "Wyjaśnij, czym jest liczba pierwsza.",
+      "Podaj wzór na obwód koła."
     ]
   }
 ]
