@@ -45,11 +45,23 @@ export const generateExam = (async (req: Request, res: Response) => {
       .json({ error: 'No questions found for selected folders' })
   }
 
-  const prompt = `Generate a multiple-choice exam in JSON format.\nFor each question, provide an object with:\n- question: the question text\n- options: array of 4 answer options (strings)\n- correct: index (0-3) of the correct option\nUse the following questions as the base for the exam (paraphrase and make them multiple-choice):\n${questions
-    .map((q, i) => `${i + 1}. ${q}`)
-    .join(
-      '\n'
-    )}\n\nReturn ONLY a JSON array, e.g.:\n[\n  {\n    "question": "...",\n    "options": ["A", "B", "C", "D"],\n    "correct": 2\n  },\n  ...\n]`
+  const prompt = `Generate a multiple-choice exam in JSON format.
+For each question, provide an object with:
+- question: the question text
+- options: array of 4 answer options (strings)
+- correct: index (0-3) of the correct option
+Use the following questions as the base for the exam (paraphrase and make them multiple-choice):
+${questions.map((q, i) => `${i + 1}. ${q}`).join('\n')}
+Generate exactly ${numQuestions} questions in total.
+Return ONLY a JSON array, e.g.:
+[
+  {
+    "question": "...",
+    "options": ["A", "B", "C", "D"],
+    "correct": 2
+  },
+  ...
+]`
 
   try {
     const completion = await openai.chat.completions.create({
