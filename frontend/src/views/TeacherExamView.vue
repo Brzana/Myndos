@@ -1,6 +1,6 @@
 <template>
   <DashboardLayout>
-    <button class="back-home-btn" @click="goToTeacher">← Back</button>
+    <button class="back-home-btn" @click="goToTeacher">← Teacher</button>
     <div class="teacher-exam-container">
       <h1 class="text-2xl font-bold mb-6 text-center">Generate Exam</h1>
       <!-- Exam generation UI goes here -->

@@ -1,6 +1,6 @@
 <template>
   <DashboardLayout>
-    <button class="back-home-btn" @click="goToStudentOptions">← Back</button>
+    <button class="back-home-btn" @click="goToStudentOptions">← Student</button>
     <div class="max-w-xl mx-auto mt-10">
       <h1 class="text-2xl font-bold mb-6 text-center">Exam Mode</h1>
       <StudentExamGenerator />

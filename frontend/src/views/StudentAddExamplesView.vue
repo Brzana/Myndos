@@ -1,6 +1,6 @@
 <template>
   <DashboardLayout>
-    <button class="back-home-btn" @click="goToStudentHome">← Back</button>
+    <button class="back-home-btn" @click="goToStudentHome">← Student</button>
     <div class="student-edit-questions-center-wrapper">
       <div class="max-w-xl w-full center-content-box">
         <h1 class="text-2xl font-bold mb-6 text-center">Edit Example Questions</h1>
