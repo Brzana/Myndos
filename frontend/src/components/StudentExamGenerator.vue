@@ -30,9 +30,28 @@
       <div v-for="(q, idx) in exam" :key="idx" class="mb-6 p-4 border rounded">
         <div class="font-semibold mb-2">{{ idx + 1 }}. {{ q.question }}</div>
         <div class="flex flex-col gap-2">
-          <label v-for="(option, oIdx) in q.options" :key="oIdx" class="flex items-center gap-2">
-            <input type="radio" :name="'q' + idx" :value="oIdx" v-model="userAnswers[idx]" />
+          <label
+            v-for="(option, oIdx) in q.options"
+            :key="oIdx"
+            class="flex items-center gap-2"
+            :style="showResults ? getOptionStyle(idx, oIdx) : ''"
+          >
+            <input
+              type="radio"
+              :name="'q' + idx"
+              :value="oIdx"
+              v-model="userAnswers[idx]"
+              :disabled="showResults"
+            />
             {{ option }}
+            <span v-if="showResults && oIdx === q.correct" class="ml-1 text-green-600 font-bold"
+              >✔</span
+            >
+            <span
+              v-if="showResults && userAnswers[idx] === oIdx && userAnswers[idx] !== q.correct"
+              class="ml-1 text-red-600 font-bold"
+              >✘</span
+            >
           </label>
         </div>
       </div>
@@ -52,6 +71,18 @@
 </template>
 
 <script setup lang="ts">
+// Add getOptionStyle for correct/incorrect highlighting
+function getOptionStyle(qIdx: number, oIdx: number) {
+  if (!showResults.value) return ''
+  // Add font-weight and text-shadow for readability
+  if (exam.value[qIdx].correct === oIdx) {
+    return 'background-color: #00fa56; border-radius: 0.25rem; font-weight: 600; text-shadow: 0 1px 2px #b6e7c9;' // green background
+  }
+  if (userAnswers.value[qIdx] === oIdx && userAnswers.value[qIdx] !== exam.value[qIdx].correct) {
+    return 'background-color: #f00707; border-radius: 0.25rem; font-weight: 600; text-shadow: 0 1px 2px #fca5a5;' // red background
+  }
+  return ''
+}
 import { ref, onMounted } from 'vue'
 import { getFolders } from '../services/folderService'
 import { generateExam } from '../services/examService'

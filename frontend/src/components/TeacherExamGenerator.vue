@@ -62,7 +62,7 @@ import { generateTeacherExam } from '../services/examService'
 
 const folders = ref<{ name: string }[]>([])
 const selectedFolders = ref<string[]>([])
-const numQuestions = ref(5)
+const numQuestions = ref(4)
 const examType = ref<'theoretical' | 'practical'>('theoretical')
 const loading = ref(false)
 const error = ref('')
