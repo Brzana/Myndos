@@ -1,6 +1,6 @@
 # Myndos
 
-Myndos is an AI-powered web platform designed to enhance learning and teaching for both students and teachers. It features exam generation, prompt libraries, chat with AI, and task management, with separate dashboards for students and teachers.
+Myndos is an AI-powered web platform designed to enhance learning and teaching for both students and teachers. It features exam generation with separate dashboards for students and teachers.
 
 ## Project Structure
 
@@ -13,11 +13,7 @@ This repository is a monorepo containing both the backend (Node.js/Express) and 
 
 - Student and teacher dashboards
 - AI-powered exam generation (with OpenAI integration)
-- Prompt template library
-- Chat interface with AI
 - Folder/question management for both students and teachers
-- User authentication (stubbed)
-- Task assignment and response (stubbed)
 
 ## Getting Started
 
