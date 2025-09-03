@@ -1,9 +1,7 @@
-<script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
-</script>
-
 <template>
-  <main>
+  <main
+    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-200"
+  >
     <TheWelcome />
   </main>
 </template>

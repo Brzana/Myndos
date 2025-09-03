@@ -1,39 +1,56 @@
 <template>
-  <div>
-    <h2 class="text-xl font-semibold mb-4">Generate Exam</h2>
-    <form @submit.prevent="onGenerate">
-      <div class="mb-4">
-        <label class="block mb-1">Select Folders:</label>
-        <div class="flex flex-wrap gap-2">
-          <label v-for="folder in folders" :key="folder.name" class="flex items-center gap-1">
-            <input type="checkbox" v-model="selectedFolders" :value="folder.name" />
-            {{ folder.name }}
+  <div class="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-lg mt-8">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Generate Exam</h2>
+    <form @submit.prevent="onGenerate" class="space-y-6">
+      <div>
+        <label class="block mb-2 text-gray-700 font-medium">Select Folders:</label>
+        <div class="flex flex-wrap gap-3">
+          <label
+            v-for="folder in folders"
+            :key="folder.name"
+            class="flex items-center gap-2 bg-gray-100 px-3 py-1 rounded cursor-pointer hover:bg-blue-100 transition"
+          >
+            <input
+              type="checkbox"
+              v-model="selectedFolders"
+              :value="folder.name"
+              class="accent-blue-600"
+            />
+            <span class="text-gray-700">{{ folder.name }}</span>
           </label>
         </div>
       </div>
-      <div class="mb-4">
-        <label class="block mb-1">Number of Questions:</label>
+      <div>
+        <label class="block mb-2 text-gray-700 font-medium">Number of Questions:</label>
         <input
           type="number"
           v-model.number="numQuestions"
           min="1"
-          class="border rounded px-2 py-1 w-24"
+          class="border border-gray-300 rounded-lg px-3 py-2 w-28 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
         />
       </div>
-      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded" :disabled="loading">
+      <button
+        type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 transition text-white px-4 py-2 rounded-lg font-semibold shadow disabled:opacity-60 disabled:cursor-not-allowed"
+        :disabled="loading"
+      >
         {{ loading ? 'Generating...' : 'Generate Exam' }}
       </button>
-      <div v-if="error" class="text-red-500 mt-2">{{ error }}</div>
+      <div v-if="error" class="text-red-500 mt-2 text-center">{{ error }}</div>
     </form>
-    <div v-if="exam && exam.length" class="mt-8">
-      <h3 class="text-lg font-bold mb-2">Exam</h3>
-      <div v-for="(q, idx) in exam" :key="idx" class="mb-6 p-4 border rounded">
-        <div class="font-semibold mb-2">{{ idx + 1 }}. {{ q.question }}</div>
-        <div class="flex flex-col gap-2">
+    <div v-if="exam && exam.length" class="mt-10">
+      <h3 class="text-xl font-bold mb-4 text-gray-800">Exam</h3>
+      <div
+        v-for="(q, idx) in exam"
+        :key="idx"
+        class="mb-8 p-6 border border-gray-200 rounded-lg bg-gray-50 shadow-sm"
+      >
+        <div class="font-semibold mb-3 text-gray-900">{{ idx + 1 }}. {{ q.question }}</div>
+        <div class="flex flex-col gap-3">
           <label
             v-for="(option, oIdx) in q.options"
             :key="oIdx"
-            class="flex items-center gap-2"
+            class="flex items-center gap-3 px-2 py-1 rounded transition cursor-pointer"
             :style="showResults ? getOptionStyle(idx, oIdx) : ''"
           >
             <input
@@ -42,8 +59,9 @@
               :value="oIdx"
               v-model="userAnswers[idx]"
               :disabled="showResults"
+              class="accent-blue-600"
             />
-            {{ option }}
+            <span class="text-gray-700">{{ option }}</span>
             <span v-if="showResults && oIdx === q.correct" class="ml-1 text-green-600 font-bold"
               >✔</span
             >
@@ -58,13 +76,13 @@
       <button
         v-if="!showResults"
         @click="submitExam"
-        class="bg-green-600 text-white px-4 py-2 rounded"
+        class="w-full bg-green-600 hover:bg-green-700 transition text-white px-4 py-2 rounded-lg font-semibold shadow"
       >
         Submit Exam
       </button>
-      <div v-if="showResults" class="mt-4">
-        <div class="text-lg font-bold">Results</div>
-        <div>You scored {{ score }} / {{ exam.length }}</div>
+      <div v-if="showResults" class="mt-6 text-center">
+        <div class="text-xl font-bold text-gray-800">Results</div>
+        <div class="text-lg text-gray-700">You scored {{ score }} / {{ exam.length }}</div>
       </div>
     </div>
   </div>
